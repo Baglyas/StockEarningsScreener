@@ -5,8 +5,8 @@ function Datas({...props}) {
 
   return (
     <>
-    <div className="flex justify-start text-2xl pb-8">
-      GameStop Corporation (GME) 
+    <div className="flex justify-start pb-8 text-2xl">
+      GameStop Corporation ({props.symbol}) 
       <a
         className="h-[60px] block mb-5 w-[60px]"
         aria-label="link-wrap-image"
@@ -22,7 +22,7 @@ function Datas({...props}) {
     {datas.map((data)=>{
       return(
         <div key={crypto.randomUUID()}
-        className="col-span-1 p-4 bg-slate-200 shadow-lg rounded-xl hover:bg-slate-300 flex justify-start">
+        className="flex justify-start col-span-1 p-4 shadow-lg bg-slate-200 rounded-xl hover:bg-slate-300">
           {data}: 
         </div>
       )

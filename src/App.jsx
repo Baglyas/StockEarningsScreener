@@ -61,14 +61,19 @@ function App() {
     }
     getInsiderTransactions();
   }, []);
+
+  const handleCallbackSymbol = (childData) =>{
+    setSymbol(childData)
+  }
+
   return <div>--API
-    <Header symbol={symbol} setSymbol={setSymbol} stonkData={stonkData} />
+    <Header callbackSymbol={handleCallbackSymbol} setSymbol={setSymbol} stonkData={stonkData} />
     <div className="grid grid-cols-2">
       <div className="col-span-1">
         <Chart stonkData={stonkData}/>
       </div>
       <div className="col-span-1 m-8">
-        <Datas logo={logo}/>
+        <Datas logo={logo} symbol={symbol}/>
       </div>
       <div className="col-span-2">
         <Reviews insiderTransactions={insiderTransactions}/>
