@@ -13,6 +13,7 @@ function App() {
   const [symbol, setSymbol] = useState("GME");
   const [logo, setLogo] = useState();
   const [insiderTransactions, setInsiderTransactions] = useState([]);
+  const [financials, setFinancials] = useState({})
 
   useEffect(() => {
     async function stonk() {
@@ -66,6 +67,25 @@ function App() {
     setSymbol(childData)
   }
 
+// FMP API, NOT IN LIST YET
+  
+  useEffect(() => {
+    async function getFinancials() {
+      const url = `https://financialmodelingprep.com/api/v3/income-statement/AAPL?limit=120&apikey=294980f762a06ad7de0a229425388b2d`;
+
+      try {
+        const response = await fetch(url);
+        const result = await response.json();
+        console.log(result);
+        setFinancials(result);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getFinancials();
+  }, []);
+
+
   return <div>--API
     <Header callbackSymbol={handleCallbackSymbol} setSymbol={setSymbol} stonkData={stonkData} />
     <div className="grid grid-cols-2">
@@ -73,7 +93,7 @@ function App() {
         <Chart stonkData={stonkData}/>
       </div>
       <div className="col-span-1 m-8">
-        <Datas logo={logo} symbol={symbol}/>
+        <Datas logo={logo} symbol={symbol} financials={financials}/>
       </div>
       <div className="col-span-2">
         <Reviews insiderTransactions={insiderTransactions}/>
