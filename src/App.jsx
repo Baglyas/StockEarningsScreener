@@ -9,12 +9,14 @@ import Reviews from "./Components/reviews";
 
 function App() {
   const [stonkData, setStonkData] = useState();
-  const [api, setApi] = useState(apiData.twelve)
-  const [symbol, setSymbol] = useState("GME")
+  const [api, setApi] = useState(apiData.twelve);
+  const [symbol, setSymbol] = useState("GME");
+  const [logo, setLogo] = useState();
+  const [insiderTransactions, setInsiderTransactions] = useState([]);
+
   useEffect(() => {
     async function stonk() {
-      const url = `https://api.twelvedata.com/time_series?apikey=${api}&interval=1day&${symbol}=TSLA&outputsize=1
-      `;
+      const url = `https://api.twelvedata.com/time_series?apikey=${api}&interval=30min&symbol=${symbol}&format=JSON`;
 
       try {
         const response = await fetch(url);
@@ -28,17 +30,48 @@ function App() {
     stonk();
   }, []);
 
+  useEffect(() => {
+    async function getLogo() {
+      const url = `https://api.twelvedata.com/logo?symbol=${symbol}&apikey=${api}`;
+
+      try {
+        const response = await fetch(url);
+        const result = await response.json();
+        console.log(result);
+        setLogo(result.url);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getLogo();
+  }, []);
+
+  useEffect(() => {
+    async function getInsiderTransactions() {
+      const url = `https://api.twelvedata.com/insider_transactions?symbol=${symbol}&apikey=${api}`;
+
+      try {
+        const response = await fetch(url);
+        const result = await response.json();
+        console.log(result);
+        setInsiderTransactions(result.insider_transactions);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getInsiderTransactions();
+  }, []);
   return <div>--API
-    <Header symbol={symbol} setSymbol={setSymbol} stonkData={stonkData}/>
+    <Header symbol={symbol} setSymbol={setSymbol} stonkData={stonkData} />
     <div className="grid grid-cols-2">
       <div className="col-span-1">
-        <Chart />
+        <Chart stonkData={stonkData}/>
       </div>
       <div className="col-span-1 m-8">
-        <Datas />
+        <Datas logo={logo}/>
       </div>
       <div className="col-span-2">
-        <Reviews />
+        <Reviews insiderTransactions={insiderTransactions}/>
       </div>
     </div>
   </div>;

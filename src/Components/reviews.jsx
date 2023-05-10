@@ -33,7 +33,6 @@ function Reviews({...props}) {
     TScan Therapeutics Announces Presentation at the H.C. Wainwright Cell Therapy Virtual Conference
     (GlobeNewswire)`
     ]
-    
   return(
     <>
       {revs.map((rev) => {
