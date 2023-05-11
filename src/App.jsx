@@ -13,7 +13,7 @@ function App() {
   const [symbol, setSymbol] = useState("GME");
   const [logo, setLogo] = useState();
   const [insiderTransactions, setInsiderTransactions] = useState([]);
-  const [financials, setFinancials] = useState({})
+  const [financials, setFinancials] = useState([])
 
   useEffect(() => {
     async function stonk() {
